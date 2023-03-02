@@ -29,16 +29,16 @@ import { print, isBalanced, loadRecursive, markBalance, sort } from './utils';
  * @param {Key} b
  * @returns {number}
  */
-function DEFAULT_COMPARE (a, b) { return a > b ? 1 : a < b ? -1 : 0; }
+function DEFAULT_COMPARE(a, b) { return a > b ? 1 : a < b ? -1 : 0; }
 
 /**
  * Single left rotation
  * @param  {Node} node
  * @return {Node}
  */
-function rotateLeft (node) {
+function rotateLeft(node) {
   var rightNode = node.right;
-  node.right    = rightNode.left;
+  node.right = rightNode.left;
 
   if (rightNode.left) rightNode.left.parent = node;
 
@@ -51,7 +51,7 @@ function rotateLeft (node) {
     }
   }
 
-  node.parent    = rightNode;
+  node.parent = rightNode;
   rightNode.left = node;
 
   node.balanceFactor += 1;
@@ -66,7 +66,7 @@ function rotateLeft (node) {
   return rightNode;
 }
 
-function rotateRight (node) {
+function rotateRight(node) {
   var leftNode = node.left;
   node.left = leftNode.right;
   if (node.left) node.left.parent = node;
@@ -80,7 +80,7 @@ function rotateRight (node) {
     }
   }
 
-  node.parent    = leftNode;
+  node.parent = leftNode;
   leftNode.right = node;
 
   node.balanceFactor -= 1;
@@ -121,7 +121,7 @@ export default class AVLTree {
    * @param  {comparatorCallback} [comparator]
    * @param  {boolean}            [noDuplicates=false] Disallow duplicates
    */
-  constructor (comparator, noDuplicates = false) {
+  constructor(comparator, noDuplicates = false) {
     this._comparator = comparator || DEFAULT_COMPARE;
     this._root = null;
     this._size = 0;
@@ -150,7 +150,7 @@ export default class AVLTree {
    * Number of nodes
    * @return {number}
    */
-  get size () {
+  get size() {
     return this._size;
   }
 
@@ -159,15 +159,15 @@ export default class AVLTree {
    * @param  {Key} key
    * @return {boolean} true/false
    */
-  contains (key) {
-    if (this._root)  {
-      var node       = this._root;
+  contains(key) {
+    if (this._root) {
+      var node = this._root;
       var comparator = this._comparator;
-      while (node)  {
+      while (node) {
         var cmp = comparator(key, node.key);
-        if      (cmp === 0) return true;
-        else if (cmp < 0)   node = node.left;
-        else                node = node.right;
+        if (cmp === 0) return true;
+        else if (cmp < 0) node = node.left;
+        else node = node.right;
       }
     }
     return false;
@@ -180,7 +180,7 @@ export default class AVLTree {
    * @param  {Node} node
    * @return {?Node}
    */
-  next (node) {
+  next(node) {
     var successor = node;
     if (successor) {
       if (successor.right) {
@@ -201,7 +201,7 @@ export default class AVLTree {
    * @param  {Node} node
    * @return {?Node}
    */
-  prev (node) {
+  prev(node) {
     var predecessor = node;
     if (predecessor) {
       if (predecessor.left) {
@@ -293,7 +293,7 @@ export default class AVLTree {
    * Returns all keys in order
    * @return {Array<Key>}
    */
-  keys () {
+  keys() {
     var current = this._root;
     var s = [], r = [], done = false;
 
@@ -316,7 +316,7 @@ export default class AVLTree {
    * Returns `data` fields of all nodes in order.
    * @return {Array<Value>}
    */
-  values () {
+  values() {
     var current = this._root;
     var s = [], r = [], done = false;
 
@@ -340,7 +340,7 @@ export default class AVLTree {
    * @param  {number} index
    * @return {?Node}
    */
-  at (index) {
+  at(index) {
     // removed after a consideration, more misleading than useful
     // index = index % this.size;
     // if (index < 0) index = this.size - index;
@@ -368,7 +368,7 @@ export default class AVLTree {
    * Returns node with the minimum key
    * @return {?Node}
    */
-  minNode () {
+  minNode() {
     var node = this._root;
     if (!node) return null;
     while (node.left) node = node.left;
@@ -379,7 +379,7 @@ export default class AVLTree {
    * Returns node with the max key
    * @return {?Node}
    */
-  maxNode () {
+  maxNode() {
     var node = this._root;
     if (!node) return null;
     while (node.right) node = node.right;
@@ -390,7 +390,7 @@ export default class AVLTree {
    * Min key
    * @return {?Key}
    */
-  min () {
+  min() {
     var node = this._root;
     if (!node) return null;
     while (node.left) node = node.left;
@@ -401,7 +401,7 @@ export default class AVLTree {
    * Max key
    * @return {?Key}
    */
-  max () {
+  max() {
     var node = this._root;
     if (!node) return null;
     while (node.right) node = node.right;
@@ -419,7 +419,7 @@ export default class AVLTree {
    * Removes and returns the node with smallest key
    * @return {?Node}
    */
-  pop () {
+  pop() {
     var node = this._root, returnValue = null;
     if (node) {
       while (node.left) node = node.left;
@@ -433,7 +433,7 @@ export default class AVLTree {
    * Removes and returns the node with highest key
    * @return {?Node}
    */
-  popMax () {
+  popMax() {
     var node = this._root, returnValue = null;
     if (node) {
       while (node.right) node = node.right;
@@ -448,7 +448,7 @@ export default class AVLTree {
    * @param  {Key} key
    * @return {?Node}
    */
-  find (key) {
+  find(key) {
     var root = this._root;
     // if (root === null)    return null;
     // if (key === root.key) return root;
@@ -457,9 +457,9 @@ export default class AVLTree {
     var compare = this._comparator;
     while (subtree) {
       cmp = compare(key, subtree.key);
-      if      (cmp === 0) return subtree;
-      else if (cmp < 0)   subtree = subtree.left;
-      else                subtree = subtree.right;
+      if (cmp === 0) return subtree;
+      else if (cmp < 0) subtree = subtree.left;
+      else subtree = subtree.right;
     }
 
     return null;
@@ -471,7 +471,7 @@ export default class AVLTree {
    * @param  {Value} [data]
    * @return {?Node}
    */
-  insert (key, data) {
+  insert(key, data) {
     if (!this._root) {
       this._root = {
         parent: null, left: null, right: null, balanceFactor: 0,
@@ -482,24 +482,24 @@ export default class AVLTree {
     }
 
     var compare = this._comparator;
-    var node    = this._root;
-    var parent  = null;
-    var cmp     = 0;
+    var node = this._root;
+    var parent = null;
+    var cmp = 0;
 
     if (this._noDuplicates) {
       while (node) {
         cmp = compare(key, node.key);
         parent = node;
-        if      (cmp === 0) return null;
-        else if (cmp < 0)   node = node.left;
-        else                node = node.right;
+        if (cmp === 0) return null;
+        else if (cmp < 0) node = node.left;
+        else node = node.right;
       }
     } else {
       while (node) {
         cmp = compare(key, node.key);
         parent = node;
-        if      (cmp <= 0)  node = node.left; //return null;
-        else                node = node.right;
+        if (cmp <= 0) node = node.left; //return null;
+        else node = node.right;
       }
     }
 
@@ -510,16 +510,16 @@ export default class AVLTree {
       parent, key, data
     };
     var newRoot;
-    if (cmp <= 0) parent.left  = newNode;
-    else         parent.right = newNode;
+    if (cmp <= 0) parent.left = newNode;
+    else parent.right = newNode;
 
     while (parent) {
       cmp = compare(parent.key, key);
       if (cmp < 0) parent.balanceFactor -= 1;
-      else         parent.balanceFactor += 1;
+      else parent.balanceFactor += 1;
 
-      if        (parent.balanceFactor === 0) break;
-      else if   (parent.balanceFactor < -1) {
+      if (parent.balanceFactor === 0) break;
+      else if (parent.balanceFactor < -1) {
         // inlined
         //var newRoot = rightBalance(parent);
         if (parent.right.balanceFactor === 1) rotateRight(parent.right);
@@ -548,7 +548,7 @@ export default class AVLTree {
    * @param  {Key} key
    * @return {?Node}
    */
-  remove (key) {
+  remove(key) {
     if (!this._root) return null;
 
     var node = this._root;
@@ -557,9 +557,9 @@ export default class AVLTree {
 
     while (node) {
       cmp = compare(key, node.key);
-      if      (cmp === 0) break;
-      else if (cmp < 0)   node = node.left;
-      else                node = node.right;
+      if (cmp === 0) break;
+      else if (cmp < 0) node = node.left;
+      else node = node.right;
     }
     if (!node) return null;
 
@@ -580,7 +580,7 @@ export default class AVLTree {
         }
       }
 
-      node.key  = max.key;
+      node.key = max.key;
       node.data = max.data;
       node = max;
     }
@@ -591,7 +591,7 @@ export default class AVLTree {
       while (min.left || min.right) {
         while (min.left) min = min.left;
 
-        node.key  = min.key;
+        node.key = min.key;
         node.data = min.data;
         if (min.right) {
           node = min;
@@ -599,20 +599,20 @@ export default class AVLTree {
         }
       }
 
-      node.key  = min.key;
+      node.key = min.key;
       node.data = min.data;
       node = min;
     }
 
     var parent = node.parent;
-    var pp     = node;
+    var pp = node;
     var newRoot;
 
     while (parent) {
       if (parent.left === pp) parent.balanceFactor -= 1;
-      else                    parent.balanceFactor += 1;
+      else parent.balanceFactor += 1;
 
-      if        (parent.balanceFactor < -1) {
+      if (parent.balanceFactor < -1) {
         // inlined
         //var newRoot = rightBalance(parent);
         if (parent.right.balanceFactor === 1) rotateRight(parent.right);
@@ -632,13 +632,13 @@ export default class AVLTree {
 
       if (parent.balanceFactor === -1 || parent.balanceFactor === 1) break;
 
-      pp     = parent;
+      pp = parent;
       parent = parent.parent;
     }
 
     if (node.parent) {
-      if (node.parent.left === node) node.parent.left  = null;
-      else                           node.parent.right = null;
+      if (node.parent.left === node) node.parent.left = null;
+      else node.parent.right = null;
     }
 
     if (node === this._root) this._root = null;
@@ -676,9 +676,57 @@ export default class AVLTree {
    * @param  {Function(Node):string} [printNode]
    * @return {string}
    */
-  toString (printNode) {
+  toString(printNode) {
     return print(this._root, printNode);
   }
+
+  /**
+   * Gets the entry corresponding to the specified key; if no such entry
+   * exists, it instead returns the entry for the greatest key less than the specified
+   * key; or null if no such entry exists.
+   * @param  {Key} key
+   * @return {?Node}
+   * @author Giles Thompson
+
+   */
+  floor(key) {
+
+    var p = this._root;
+
+    while (p != null) {
+
+      var cmp = this._comparator(key,p.key);
+
+      if (cmp > 0) {
+
+        if (p.right != null) {
+          p = p.right
+        } else {
+          return p;
+        }
+
+      } else if (cmp < 0) {
+        if (p.left != null) {
+          p = p.left;
+        } else {
+          let parent = p.parent;
+          let ch = p;
+          while (parent != null && ch == parent.left) {
+            ch = parent;
+            parent = parent.parent;
+          }
+          return parent;
+        }
+
+      } else {
+        return p;
+      }
+
+    }
+    return null;
+  }
+
 }
+
 
 AVLTree.default = AVLTree;
