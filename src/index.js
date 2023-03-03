@@ -695,12 +695,12 @@ export default class AVLTree {
 
     while (p != null) {
 
-      var cmp = this._comparator(key,p.key);
+      var cmp = this._comparator(key, p.key);
 
       if (cmp > 0) {
 
         if (p.right != null) {
-          p = p.right
+          p = p.right;
         } else {
           return p;
         }
@@ -711,7 +711,7 @@ export default class AVLTree {
         } else {
           let parent = p.parent;
           let ch = p;
-          while (parent != null && ch == parent.left) {
+          while (parent != null && ch === parent.left) {
             ch = parent;
             parent = parent.parent;
           }
@@ -727,6 +727,5 @@ export default class AVLTree {
   }
 
 }
-
 
 AVLTree.default = AVLTree;
